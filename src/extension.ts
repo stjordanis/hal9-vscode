@@ -209,7 +209,7 @@ class JSPanel {
 	private _update() {
 		const webview = this._panel.webview;
 
-		this._panel.title = 'JSCode';
+		this._panel.title = 'Output';
 		this._panel.webview.html = this._getHtmlForWebview(webview);
 	}
 

@@ -2,7 +2,15 @@
   "name": "hal9",
 	"displayName": "hal9",
 	"description": "Interactive environment for JavaScript",
-	"version": "0.0.1",
+	"publisher": "hal9",
+	"version": "0.0.5",
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/hal9ai/hal9-vscode"
+    },
+    "bugs": {
+        "url": "https://github.com/hal9ai/hal9-vscode/issues"
+    },
 	"engines": {
 		"vscode": "^1.55.0"
 	},
@@ -13,6 +21,8 @@
 		"onCommand:hal9.webView"
 	],
 	"main": "./dist/extension.js",
+	"license": "MIT",
+    "icon": "icon.png",
 	"contributes": {
 		"commands": [
 			{
