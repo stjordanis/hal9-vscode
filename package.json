@@ -18,7 +18,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:hal9.webView"
+		"onCommand:hal9.start",
+		"onWebviewPanel:jsCoding"
 	],
 	"main": "./dist/extension.js",
 	"license": "MIT",
@@ -26,7 +27,7 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "hal9.webView",
+				"command": "hal9.start",
 				"category": "hal9",
 				"title": "Interactive JavaScript"
 			},
