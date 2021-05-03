@@ -32,7 +32,6 @@ function getSelectionText(textEditor: vscode.TextEditor) : UserSelection {
 
     // weird state
     if (!selection) {
-        console.error(`No selection. Unexpected state.`);
         return new UserSelection("", "", [], false);
     }
     
@@ -40,7 +39,6 @@ function getSelectionText(textEditor: vscode.TextEditor) : UserSelection {
     const currentline = textEditor.document.lineAt(selection.start.line).text;
 
     if (selection.isEmpty) {
-        console.log(`No selected text, therefore passing only current line.`);
         return new UserSelection(currentline, "", [], false);
     }
 
@@ -67,9 +65,7 @@ function getSelectionText(textEditor: vscode.TextEditor) : UserSelection {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('hal9: activating');
-
-	let disposableWebView = vscode.commands.registerCommand('hal9.webView', () => {
+	let disposableWebView = vscode.commands.registerCommand('hal9.start', () => {
 		JSPanel.createOrShow(context.extensionUri);
     });
 
@@ -85,8 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
 	if (vscode.window.registerWebviewPanelSerializer) {
 		// Make sure we register a serializer in activation event
 		vscode.window.registerWebviewPanelSerializer(JSPanel.viewType, {
-			async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {
-				console.log(`Got state: ${state}`);
+			async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel, state: any) {\
 				// Reset the webview options so we use latest uri for `localResourceRoots`.
 				webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
 				JSPanel.revive(webviewPanel, context.extensionUri);
@@ -99,8 +94,6 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {}
 
 function getWebviewOptions(extensionUri: vscode.Uri): vscode.WebviewOptions {
-	console.log('hal9: getWebviewOptions');
-
 	return {
 		// Enable javascript in the webview
 		enableScripts: true,
@@ -120,22 +113,17 @@ class JSPanel {
 	private _disposables: vscode.Disposable[] = [];
 
 	public static createOrShow(extensionUri: vscode.Uri) {
-		console.log('hal9: panel createOrShow');
-
 		const column = vscode.window.activeTextEditor
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
 
 		// If we already have a panel, show it.
 		if (JSPanel.currentPanel) {
-			console.log('hal9: panel exists');
-
 			JSPanel.currentPanel._panel.reveal(column);
 			return;
 		}
 
 		// Otherwise, create a new panel.
-		console.log('hal9: panel creating');
 		const panel = vscode.window.createWebviewPanel(
 			JSPanel.viewType,
 			'Output',
@@ -147,14 +135,10 @@ class JSPanel {
 	}
 
 	public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-		console.log('hal9: panel reviving');
-
 		JSPanel.currentPanel = new JSPanel(panel, extensionUri);
 	}
 
 	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-		console.log('hal9: panel constructing');
-
 		this._panel = panel;
 		this._extensionUri = extensionUri;
 
@@ -168,7 +152,6 @@ class JSPanel {
 		// Update the content based on view changes
 		this._panel.onDidChangeViewState(
 			e => {
-				console.log('hal9: panel onDidChangeViewState');
 				if (this._panel.visible) {
 					this._update();
 				}
@@ -180,13 +163,12 @@ class JSPanel {
 		// Handle messages from the webview
 		this._panel.webview.onDidReceiveMessage(
 			message => {
-				console.log('hal9: panel onDidReceiveMessage');
 				switch (message.command) {
 					case 'error':
 						vscode.window.showErrorMessage(message.text);
 						return;
 					case 'message':
-						vscode.window.showErrorMessage(message.text); // showInformationMessage
+						vscode.window.showInformationMessage(message.text);
 						return;
 					case 'log':
 						console.log(message.text);
@@ -199,8 +181,6 @@ class JSPanel {
 	}
 
 	public _runCode(code: String) {
-		console.log('hal9: panel _runCode');
-
 		this._panel.webview.postMessage({ command: 'run', code: code });
 	}
 
@@ -210,8 +190,6 @@ class JSPanel {
 	}
 
 	public dispose() {
-		console.log('hal9: panel dispose');
-		
 		JSPanel.currentPanel = undefined;
 
 		// Clean up our resources
