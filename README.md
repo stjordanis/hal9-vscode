@@ -42,3 +42,18 @@ You can log commands back to the console using `console.log`, which has been ove
 ```js
 console.log('Tada!');
 ```
+
+## Contributing
+
+Use yarn to install and compile this extension,
+
+```
+yarn install
+yarn compile
+```
+
+Followed by running this extension from VSCode and packaging with `vsce`:
+
+```
+vsce package
+```
