@@ -1,6 +1,5 @@
 (function () {
     const vscode = acquireVsCodeApi();
-    vscode.postMessage({ command: 'message', text: 'something' });
 
     const logHost = console.log;
 
@@ -17,7 +16,13 @@
                 console.log = log;
 
                 try {
-                    eval("(async () => {" + message.code + "})()");
+                    eval("(async () => {" + message.code + "})()")
+                        .then(response => {
+                        })
+                        .catch(e => {
+                            logHost(e.toString());
+                            vscode.postMessage({ command: 'error', text: e.toString() });
+                        });
                 }
                 catch(e) {
                     logHost(e.toString());
