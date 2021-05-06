@@ -3,7 +3,7 @@
 	"displayName": "hal9",
 	"description": "Interactive environment for JavaScript",
 	"publisher": "hal9",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
         "type": "git",
         "url": "https://github.com/hal9ai/hal9-vscode"

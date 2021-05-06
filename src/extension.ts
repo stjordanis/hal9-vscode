@@ -1,51 +1,16 @@
 import * as vscode from 'vscode';
 
-class UserSelection {
-    currentline: string;
-    selection: string;
-    multilineSelection: string[];    
-    isMultiLine: boolean;
-
-    constructor(currentline: string, selection: string, multilineSelection : string[], isMultiLine: boolean) {
-        this.currentline = currentline;
-        this.selection = selection;
-        this.multilineSelection = multilineSelection;
-        this.isMultiLine = isMultiLine;
-
-        this.removeTrailingLine(multilineSelection);
-    }
-
-    removeTrailingLine(text: string[]) {
-        // remove trailing space line
-        if (text.length > 0 && text[text.length-1].length === 0) {
-            text.splice(text.length-1, 1);
-        }
-    }
-
-    isEmpty() {
-        return this.multilineSelection.length === 0;
-    }
-}
-
-function getSelectionText(textEditor: vscode.TextEditor) : UserSelection {
+function getCodeText(textEditor: vscode.TextEditor) : String {
     const selection = textEditor.selection;       
 
-    // weird state
     if (!selection) {
-        return new UserSelection("", "", [], false);
+        return "";
     }
-    
-    // current line under cursor
-    const currentline = textEditor.document.lineAt(selection.start.line).text;
 
     if (selection.isEmpty) {
-        return new UserSelection(currentline, "", [], false);
+        return textEditor.document.getText();
     }
 
-    // is multiline
-    const isMultiLine = selection.end.line !== selection.start.line;
-
-    // multiline selection
     let multilineSelection : string[] = [];
     for (let line = selection.start.line; line <= selection.end.line; line++){
         let currentLine = textEditor.document.lineAt(line).text;
@@ -58,10 +23,7 @@ function getSelectionText(textEditor: vscode.TextEditor) : UserSelection {
         multilineSelection.push(currentLine);
     }
 
-    // single line
-    const lineSelection = textEditor.document.getText(selection);
-
-    return new UserSelection(currentline, lineSelection, multilineSelection, isMultiLine);
+    return multilineSelection.join('\n');
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -70,8 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
 	let disposableSendCode = vscode.commands.registerTextEditorCommand('hal9.sendToJS', (textEditor: vscode.TextEditor) => {
-		let selection = getSelectionText(textEditor);
-		var code = selection.multilineSelection.join('\n');
+		var code = getCodeText(textEditor);
 		JSPanel.runCode(code);
     });
 
