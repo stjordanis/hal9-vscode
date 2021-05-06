@@ -40,7 +40,7 @@
 		"keybindings": [
             {
                 "command": "hal9.sendToJS",
-                "key": "shift+alt+enter",
+                "key": "cmd+enter",
                 "when": "editorFocus && !findWidgetVisible"
             }
         ]
