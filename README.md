@@ -1,8 +1,8 @@
 # Hal9
 
-The hal9 VSCode extension provides an interactive JavaScript panel to send commands line-by-line with a keyboard shortcut.
+The hal9 VSCode extension runs code in an embedded browser with the `cmd + enter` shortcut.
 
-This workflow is ideal to execute long-running commands characteristic of Data Science, Machine Learning and Artificial Intelligence workflows.
+This extension is ideal to rapidly iterate over visualizations by updating your visualization instantaneously with `cmd + enter`; or to run line-by-line code selections with `cmd+ + enter` for long-running tasks; both use-cases are characteristic of Data Science, Machine Learning and Artificial Intelligence workflows.
 
 ![Hal9 VSCode Preview](hal9-vscode.gif)
 
