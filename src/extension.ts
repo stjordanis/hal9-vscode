@@ -175,18 +175,22 @@ class JSPanel {
 		const scriptPath = vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js');
 		const scriptUri = webview.asWebviewUri(scriptPath);
 
-		const requirePath = vscode.Uri.joinPath(this._extensionUri, 'media', 'require.js');
-		const requireUri = webview.asWebviewUri(requirePath);
+		const d3RequirePath = vscode.Uri.joinPath(this._extensionUri, 'media', 'd3-require.js');
+		const d3RequireUri = webview.asWebviewUri(d3RequirePath);
+
+		const hal9RequirePath = vscode.Uri.joinPath(this._extensionUri, 'media', 'hal9-require.js');
+		const hal9RequireUri = webview.asWebviewUri(hal9RequirePath);
 
 		return `<!DOCTYPE html>
-			<html lang="en">
+			<html lang="en" style="height: 100%;">
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>JSCode</title>
-				<script src="${requireUri}"></script>
+				<script src="${d3RequireUri}"></script>
+				<script src="${hal9RequireUri}"></script>
 			</head>
-			<body>
+			<body style="height: 100%; padding: 0;">
 				<div id="code-history"></div>
 				<script src="${scriptUri}"></script>
 			</body>
