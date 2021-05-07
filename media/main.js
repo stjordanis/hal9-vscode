@@ -18,6 +18,7 @@
                 try {
                     eval("(async () => {" + message.code + "})()")
                         .then(response => {
+                            vscode.postMessage({ command: 'message', text: 'Executed ' + message.code.split('\n').length + ' lines of code.' });
                         })
                         .catch(e => {
                             logHost(e.toString());
