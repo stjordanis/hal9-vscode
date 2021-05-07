@@ -2,6 +2,11 @@
 
 All notable changes to the "hal9" extension will be documented in this file.
 
+## 0.1.2
+
+- Support URL dependencies with `require()`.
+- Running code confirms total lines of executed.
+
 ## 0.1.1
 
 - Code now runs with `cmd + enter`.

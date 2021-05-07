@@ -37,6 +37,11 @@ d3.select(document.body).append('svg')
     .attr('fill', 'yellow')
 ```
 
+In addition, you can require arbitrary JavaScript libraries using a full URL; these libraries will get added as `<script>` tags in your document header. Let's try to do this with the `three.js` visualization oibrary:
+
+```js
+```
+
 You can log commands back to the console using `console.log`, which has been overridden in the output window to write back to VSCode. Try sending the following line:
 
 ```js
