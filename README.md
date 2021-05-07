@@ -37,10 +37,49 @@ d3.select(document.body).append('svg')
     .attr('fill', 'yellow')
 ```
 
-In addition, you can require arbitrary JavaScript libraries using a full URL; these libraries will get added as `<script>` tags in your document header. Let's try to do this with the `three.js` visualization oibrary:
+In addition, you can require arbitrary JavaScript libraries using a full URL; these libraries will get added as `<script>` tags in your document header. Let's try to do this with the `three.js` visualization library:
 
 ```js
+await require('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
+await require('https://cdnjs.cloudflare.com/ajax/libs/d3/6.2.0/d3.min.js');
+await require('https://threejs.org/examples/js/controls/OrbitControls.js');
+
+var scene = new THREE.Scene();
+var width = document.body.clientWidth;
+var height = document.body.clientHeight;
+
+var camera = new THREE.PerspectiveCamera(70, width / height, 0.1, 1000);
+var renderer = new THREE.WebGLRenderer({ antialias: true });
+
+renderer.setClearColor("#1e1e1e");
+renderer.setSize(width, height);
+
+document.body.innerHTML = '';
+document.body.appendChild( renderer.domElement );
+
+var geometry = new THREE.BoxGeometry(30, 30, 30);
+var material = new THREE.MeshLambertMaterial();
+material.color.setStyle('#3333ff');
+var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+camera.position.z = 100;
+
+const light = new THREE.PointLight(0xaaaaaa, 1, 10000);
+light.position.set(0, 50, 100);
+scene.add( light );
+
+var render = function () {
+  requestAnimationFrame(render);
+  cube.rotation.y += 0.01;
+  controls.update();
+  renderer.render(scene, camera);
+};
+render();
 ```
+
+![Hal9 VSCode Preview](hal9-vscode-three.gif)
 
 You can log commands back to the console using `console.log`, which has been overridden in the output window to write back to VSCode. Try sending the following line:
 
